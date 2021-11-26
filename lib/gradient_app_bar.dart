@@ -163,7 +163,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   ///
   /// Typically used in the [Scaffold.appBar] property.
   GradientAppBar({
-    Key key,
+    Key? key,
     this.leading,
     this.automaticallyImplyLeading = true,
     this.title,
@@ -231,7 +231,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   ///
   ///  * [Scaffold.appBar], in which an [GradientAppBar] is usually placed.
   ///  * [Scaffold.drawer], in which the [Drawer] is usually placed.
-  final Widget leading;
+  final Widget? leading;
 
   /// Controls whether we should try to imply the leading widget if null.
   ///
@@ -244,14 +244,14 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   ///
   /// Typically a [Text] widget containing a description of the current contents
   /// of the app.
-  final Widget title;
+  final Widget? title;
 
   /// Widgets to display after the [title] widget.
   ///
   /// Typically these widgets are [IconButton]s representing common operations.
   /// For less common operations, consider using a [PopupMenuButton] as the
   /// last action.
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   /// This widget is stacked behind the toolbar and the tab bar. It's height will
   /// be the same as the app bar's overall height.
@@ -261,7 +261,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// changes the [GradientAppBar]'s height when scrolled.
   ///
   /// Typically a [FlexibleSpaceBar]. See [FlexibleSpaceBar] for details.
-  final Widget flexibleSpace;
+  final Widget? flexibleSpace;
 
   /// This widget appears across the bottom of the app bar.
   ///
@@ -271,7 +271,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// See also:
   ///
   ///  * [PreferredSize], which can be used to give an arbitrary widget a preferred size.
-  final PreferredSizeWidget bottom;
+  final PreferredSizeWidget? bottom;
 
   /// The z-coordinate at which to place this app bar relative to its parent.
   ///
@@ -282,33 +282,33 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// If this property is null, then [ThemeData.appBarTheme.elevation] is used,
   /// if that is also null, the default value is 4, the appropriate elevation
   /// for app bars.
-  final double elevation;
+  final double? elevation;
 
   /// The material's shape as well its shadow.
   ///
   /// A shadow is only displayed if the [elevation] is greater than
   /// zero.
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   /// The color to use for the app bar's material. Typically this should be set
   /// along with [brightness], [iconTheme], [textTheme].
   ///
   /// If this property is null, then [ThemeData.appBarTheme.color] is used,
   /// if that is also null, then [ThemeData.primaryColor] is used.
-  final Gradient gradient;
+  final Gradient? gradient;
 
   /// The gradient displayed at the appbar.
   ///
   /// If this property is null, then [ThemeData.appBarTheme.brightness] is used,
   /// if that is also null, then [ThemeData.primaryColorBrightness] is used.
-  final Brightness brightness;
+  final Brightness? brightness;
 
   /// The color, opacity, and size to use for app bar icons. Typically this
   /// is set along with [backgroundColor], [brightness], [textTheme].
   ///
   /// If this property is null, then [ThemeData.appBarTheme.iconTheme] is used,
   /// if that is also null, then [ThemeData.primaryIconTheme] is used.
-  final IconThemeData iconTheme;
+  final IconThemeData? iconTheme;
 
   /// The color, opacity, and size to use for the icons that appear in the app
   /// bar's [actions]. This should only be used when the [actions] should be
@@ -317,14 +317,14 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   ///
   /// If this property is null, then [ThemeData.appBarTheme.actionsIconTheme] is
   /// used, if that is also null, then this falls back to [iconTheme].
-  final IconThemeData actionsIconTheme;
+  final IconThemeData? actionsIconTheme;
 
   /// The typographic styles to use for text in the app bar. Typically this is
   /// set along with [brightness] [backgroundColor], [iconTheme].
   ///
   /// If this property is null, then [ThemeData.appBarTheme.textTheme] is used,
   /// if that is also null, then [ThemeData.primaryTextTheme] is used.
-  final TextTheme textTheme;
+  final TextTheme? textTheme;
 
   /// Whether this app bar is being displayed at the top of the screen.
   ///
@@ -336,7 +336,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// Whether the title should be centered.
   ///
   /// Defaults to being adapted to the current [TargetPlatform].
-  final bool centerTitle;
+  final bool? centerTitle;
 
   /// The spacing around [title] content on the horizontal axis. This spacing is
   /// applied even if there is no [leading] content or [actions]. If you want
@@ -370,7 +370,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  bool _getEffectiveCenterTitle(ThemeData themeData) {
+  bool? _getEffectiveCenterTitle(ThemeData themeData) {
     if (centerTitle != null) return centerTitle;
     assert(themeData.platform != null);
     switch (themeData.platform) {
@@ -378,7 +378,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
       case TargetPlatform.fuchsia:
         return false;
       case TargetPlatform.iOS:
-        return actions == null || actions.length < 2;
+        return actions == null || actions!.length < 2;
     }
     return null;
   }
@@ -404,8 +404,8 @@ class _GradientAppBarState extends State<GradientAppBar> {
     assert(debugCheckHasMaterialLocalizations(context));
     final ThemeData themeData = Theme.of(context);
     final AppBarTheme appBarTheme = AppBarTheme.of(context);
-    final ScaffoldState scaffold = Scaffold.of(context, nullOk: true);
-    final ModalRoute<dynamic> parentRoute = ModalRoute.of(context);
+    final ScaffoldState scaffold = Scaffold.of(context, );
+    final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
 
     final bool hasDrawer = scaffold?.hasDrawer ?? false;
     final bool hasEndDrawer = scaffold?.hasEndDrawer ?? false;
@@ -418,12 +418,12 @@ class _GradientAppBarState extends State<GradientAppBar> {
     IconThemeData actionsIconTheme = widget.actionsIconTheme ??
         appBarTheme.actionsIconTheme ??
         overallIconTheme;
-    TextStyle centerStyle = widget.textTheme?.title ??
-        appBarTheme.textTheme?.title ??
-        themeData.primaryTextTheme.title;
-    TextStyle sideStyle = widget.textTheme?.body1 ??
-        appBarTheme.textTheme?.body1 ??
-        themeData.primaryTextTheme.body1;
+    TextStyle? centerStyle = widget.textTheme?.bodyText1 ??
+        appBarTheme.textTheme?.bodyText1 ??
+        themeData.primaryTextTheme.bodyText1;
+    TextStyle? sideStyle = widget.textTheme?.bodyText1 ??
+        appBarTheme.textTheme?.bodyText1 ??
+        themeData.primaryTextTheme.bodyText1;
 
     if (widget.toolbarOpacity != 1.0) {
       final double opacity =
@@ -431,17 +431,17 @@ class _GradientAppBarState extends State<GradientAppBar> {
           .transform(widget.toolbarOpacity);
       if (centerStyle?.color != null)
         centerStyle =
-            centerStyle.copyWith(color: centerStyle.color.withOpacity(opacity));
+            centerStyle!.copyWith(color: centerStyle.color!.withOpacity(opacity));
       if (sideStyle?.color != null)
         sideStyle =
-            sideStyle.copyWith(color: sideStyle.color.withOpacity(opacity));
+            sideStyle!.copyWith(color: sideStyle.color!.withOpacity(opacity));
       overallIconTheme = overallIconTheme.copyWith(
           opacity: opacity * (overallIconTheme.opacity ?? 1.0));
       actionsIconTheme = actionsIconTheme.copyWith(
           opacity: opacity * (actionsIconTheme.opacity ?? 1.0));
     }
 
-    Widget leading = widget.leading;
+    Widget? leading = widget.leading;
     if (leading == null && widget.automaticallyImplyLeading) {
       if (hasDrawer) {
         leading = IconButton(
@@ -461,9 +461,9 @@ class _GradientAppBarState extends State<GradientAppBar> {
       );
     }
 
-    Widget title = widget.title;
+    Widget? title = widget.title;
     if (title != null) {
-      bool namesRoute;
+      bool? namesRoute;
       switch (defaultTargetPlatform) {
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
@@ -473,7 +473,7 @@ class _GradientAppBarState extends State<GradientAppBar> {
           break;
       }
       title = DefaultTextStyle(
-        style: centerStyle,
+        style: centerStyle!,
         softWrap: false,
         overflow: TextOverflow.ellipsis,
         child: Semantics(
@@ -484,12 +484,12 @@ class _GradientAppBarState extends State<GradientAppBar> {
       );
     }
 
-    Widget actions;
-    if (widget.actions != null && widget.actions.isNotEmpty) {
+    Widget? actions;
+    if (widget.actions != null && widget.actions!.isNotEmpty) {
       actions = Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: widget.actions,
+        children: widget.actions!,
       );
     } else if (hasEndDrawer) {
       actions = IconButton(
@@ -511,7 +511,7 @@ class _GradientAppBarState extends State<GradientAppBar> {
       leading: leading,
       middle: title,
       trailing: actions,
-      centerMiddle: widget._getEffectiveCenterTitle(themeData),
+      centerMiddle: widget._getEffectiveCenterTitle(themeData)!,
       middleSpacing: widget.titleSpacing,
     );
 
@@ -523,7 +523,7 @@ class _GradientAppBarState extends State<GradientAppBar> {
         child: IconTheme.merge(
           data: overallIconTheme,
           child: DefaultTextStyle(
-            style: sideStyle,
+            style: sideStyle!,
             child: toolbar,
           ),
         ),
@@ -540,7 +540,7 @@ class _GradientAppBarState extends State<GradientAppBar> {
             ),
           ),
           widget.bottomOpacity == 1.0
-              ? widget.bottom
+              ? widget.bottom!
               : Opacity(
             opacity:
             const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
@@ -568,7 +568,7 @@ class _GradientAppBarState extends State<GradientAppBar> {
       appBar = Stack(
         fit: StackFit.passthrough,
         children: <Widget>[
-          widget.flexibleSpace,
+          widget.flexibleSpace!,
           appBar,
         ],
       );
@@ -602,9 +602,9 @@ class _GradientAppBarState extends State<GradientAppBar> {
 }
 
 class _FloatingGradientAppBar extends StatefulWidget {
-  const _FloatingGradientAppBar({Key key, this.child}) : super(key: key);
+  const _FloatingGradientAppBar({Key? key, this.child}) : super(key: key);
 
-  final Widget child;
+  final Widget? child;
 
   @override
   _FloatingGradientAppBarState createState() => _FloatingGradientAppBarState();
@@ -613,28 +613,28 @@ class _FloatingGradientAppBar extends StatefulWidget {
 // A wrapper for the widget created by _SliverGradientAppBarDelegate that starts and
 // stops the floating app bar's snap-into-view or snap-out-of-view animation.
 class _FloatingGradientAppBarState extends State<_FloatingGradientAppBar> {
-  ScrollPosition _position;
+  ScrollPosition? _position;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_position != null)
-      _position.isScrollingNotifier.removeListener(_isScrollingListener);
+      _position!.isScrollingNotifier.removeListener(_isScrollingListener);
     _position = Scrollable.of(context)?.position;
     if (_position != null)
-      _position.isScrollingNotifier.addListener(_isScrollingListener);
+      _position!.isScrollingNotifier.addListener(_isScrollingListener);
   }
 
   @override
   void dispose() {
     if (_position != null)
-      _position.isScrollingNotifier.removeListener(_isScrollingListener);
+      _position!.isScrollingNotifier.removeListener(_isScrollingListener);
     super.dispose();
   }
 
-  RenderSliverFloatingPersistentHeader _headerRenderer() {
-    return context.ancestorRenderObjectOfType(
-        const TypeMatcher<RenderSliverFloatingPersistentHeader>());
+  RenderSliverFloatingPersistentHeader? _headerRenderer() {
+    return context.findAncestorRenderObjectOfType<RenderSliverFloatingPersistentHeader>(
+        );
   }
 
   void _isScrollingListener() {
@@ -642,67 +642,67 @@ class _FloatingGradientAppBarState extends State<_FloatingGradientAppBar> {
 
     // When a scroll stops, then maybe snap the appbar into view.
     // Similarly, when a scroll starts, then maybe stop the snap animation.
-    final RenderSliverFloatingPersistentHeader header = _headerRenderer();
-    if (_position.isScrollingNotifier.value)
-      header?.maybeStopSnapAnimation(_position.userScrollDirection);
+    final RenderSliverFloatingPersistentHeader? header = _headerRenderer();
+    if (_position!.isScrollingNotifier.value)
+      header?.maybeStopSnapAnimation(_position!.userScrollDirection);
     else
-      header?.maybeStartSnapAnimation(_position.userScrollDirection);
+      header?.maybeStartSnapAnimation(_position!.userScrollDirection);
   }
 
   @override
-  Widget build(BuildContext context) => widget.child;
+  Widget build(BuildContext context) => widget.child!;
 }
 
 class _SliverGradientAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverGradientAppBarDelegate({
-    @required this.leading,
-    @required this.automaticallyImplyLeading,
-    @required this.title,
-    @required this.actions,
-    @required this.flexibleSpace,
-    @required this.bottom,
-    @required this.elevation,
-    @required this.forceElevated,
-    @required this.gradient,
-    @required this.brightness,
-    @required this.iconTheme,
-    @required this.actionsIconTheme,
-    @required this.textTheme,
-    @required this.primary,
-    @required this.centerTitle,
-    @required this.titleSpacing,
-    @required this.expandedHeight,
-    @required this.collapsedHeight,
-    @required this.topPadding,
-    @required this.floating,
-    @required this.pinned,
-    @required this.snapConfiguration,
-    @required this.shape,
+    required this.leading,
+    required this.automaticallyImplyLeading,
+    required this.title,
+    required this.actions,
+    required this.flexibleSpace,
+    required this.bottom,
+    required this.elevation,
+    required this.forceElevated,
+    required this.gradient,
+    required this.brightness,
+    required this.iconTheme,
+    required this.actionsIconTheme,
+    required this.textTheme,
+    required this.primary,
+    required this.centerTitle,
+    required this.titleSpacing,
+    required this.expandedHeight,
+    required this.collapsedHeight,
+    required this.topPadding,
+    required this.floating,
+    required this.pinned,
+    required this.snapConfiguration,
+    required this.shape,
   })  : assert(primary || topPadding == 0.0),
         _bottomHeight = bottom?.preferredSize?.height ?? 0.0;
 
-  final Widget leading;
+  final Widget? leading;
   final bool automaticallyImplyLeading;
-  final Widget title;
-  final List<Widget> actions;
-  final Widget flexibleSpace;
-  final PreferredSizeWidget bottom;
-  final double elevation;
+  final Widget? title;
+  final List<Widget>? actions;
+  final Widget? flexibleSpace;
+  final PreferredSizeWidget? bottom;
+  final double? elevation;
   final bool forceElevated;
-  final Gradient gradient;
-  final Brightness brightness;
-  final IconThemeData iconTheme;
-  final IconThemeData actionsIconTheme;
-  final TextTheme textTheme;
+  final Gradient? gradient;
+  final Brightness? brightness;
+  final IconThemeData? iconTheme;
+  final IconThemeData? actionsIconTheme;
+  final TextTheme? textTheme;
   final bool primary;
-  final bool centerTitle;
+  final bool? centerTitle;
   final double titleSpacing;
-  final double expandedHeight;
-  final double collapsedHeight;
+  final double? expandedHeight;
+  final double? collapsedHeight;
   final double topPadding;
   final bool floating;
   final bool pinned;
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   final double _bottomHeight;
 
@@ -716,7 +716,7 @@ class _SliverGradientAppBarDelegate extends SliverPersistentHeaderDelegate {
       minExtent);
 
   @override
-  final FloatingHeaderSnapConfiguration snapConfiguration;
+  final FloatingHeaderSnapConfiguration? snapConfiguration;
 
   @override
   Widget build(
@@ -889,7 +889,7 @@ class SliverGradientAppBar extends StatefulWidget {
   /// The arguments [forceElevated], [primary], [floating], [pinned], [snap]
   /// and [automaticallyImplyLeading] must not be null.
   const SliverGradientAppBar({
-    Key key,
+    Key? key,
     this.leading,
     this.automaticallyImplyLeading = true,
     this.title,
@@ -930,7 +930,7 @@ class SliverGradientAppBar extends StatefulWidget {
   /// [IconButton] that opens the drawer. If there's no [Drawer] and the parent
   /// [Navigator] can go back, the [GradientAppBar] will use a [BackButton] that calls
   /// [Navigator.maybePop].
-  final Widget leading;
+  final Widget? leading;
 
   /// Controls whether we should try to imply the leading widget if null.
   ///
@@ -943,7 +943,7 @@ class SliverGradientAppBar extends StatefulWidget {
   ///
   /// Typically a [Text] widget containing a description of the current contents
   /// of the app.
-  final Widget title;
+  final Widget? title;
 
   /// Widgets to display after the [title] widget.
   ///
@@ -976,13 +976,13 @@ class SliverGradientAppBar extends StatefulWidget {
   /// )
   /// ```
   /// {@end-tool}
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   /// This widget is stacked behind the toolbar and the tab bar. It's height will
   /// be the same as the app bar's overall height.
   ///
   /// Typically a [FlexibleSpaceBar]. See [FlexibleSpaceBar] for details.
-  final Widget flexibleSpace;
+  final Widget? flexibleSpace;
 
   /// This widget appears across the bottom of the appbar.
   ///
@@ -992,7 +992,7 @@ class SliverGradientAppBar extends StatefulWidget {
   /// See also:
   ///
   ///  * [PreferredSize], which can be used to give an arbitrary widget a preferred size.
-  final PreferredSizeWidget bottom;
+  final PreferredSizeWidget? bottom;
 
   /// The z-coordinate at which to place this app bar when it is above other
   /// content. This controls the size of the shadow below the app bar.
@@ -1005,7 +1005,7 @@ class SliverGradientAppBar extends StatefulWidget {
   /// no content underneath it. For example, if the app bar is [pinned] but no
   /// content is scrolled under it, or if it scrolls with the content, then no
   /// shadow is drawn, regardless of the value of [elevation].
-  final double elevation;
+  final double? elevation;
 
   /// Whether to show the shadow appropriate for the [elevation] even if the
   /// content is not scrolled under the [GradientAppBar].
@@ -1022,21 +1022,21 @@ class SliverGradientAppBar extends StatefulWidget {
   ///
   /// If this property is null, then [ThemeData.appBarTheme.color] is used,
   /// if that is also null, then [ThemeData.primaryColor] is used.
-  final Gradient gradient;
+  final Gradient? gradient;
 
   /// The brightness of the app bar's material. Typically this is set along
   /// with [backgroundColor], [iconTheme], [textTheme].
   ///
   /// If this property is null, then [ThemeData.appBarTheme.brightness] is used,
   /// if that is also null, then [ThemeData.primaryColorBrightness] is used.
-  final Brightness brightness;
+  final Brightness? brightness;
 
   /// The color, opacity, and size to use for app bar icons. Typically this
   /// is set along with [backgroundColor], [brightness], [textTheme].
   ///
   /// If this property is null, then [ThemeData.appBarTheme.iconTheme] is used,
   /// if that is also null, then [ThemeData.primaryIconTheme] is used.
-  final IconThemeData iconTheme;
+  final IconThemeData? iconTheme;
 
   /// The color, opacity, and size to use for trailing app bar icons. This
   /// should only be used when the trailing icons should be themed differently
@@ -1044,14 +1044,14 @@ class SliverGradientAppBar extends StatefulWidget {
   ///
   /// If this property is null, then [ThemeData.appBarTheme.actionsIconTheme] is
   /// used, if that is also null, then this falls back to [iconTheme].
-  final IconThemeData actionsIconTheme;
+  final IconThemeData? actionsIconTheme;
 
   /// The typographic styles to use for text in the app bar. Typically this is
   /// set along with [brightness] [backgroundColor], [iconTheme].
   ///
   /// If this property is null, then [ThemeData.appBarTheme.textTheme] is used,
   /// if that is also null, then [ThemeData.primaryTextTheme] is used.
-  final TextTheme textTheme;
+  final TextTheme? textTheme;
 
   /// Whether this app bar is being displayed at the top of the screen.
   ///
@@ -1062,7 +1062,7 @@ class SliverGradientAppBar extends StatefulWidget {
   /// Whether the title should be centered.
   ///
   /// Defaults to being adapted to the current [TargetPlatform].
-  final bool centerTitle;
+  final bool? centerTitle;
 
   /// The spacing around [title] content on the horizontal axis. This spacing is
   /// applied even if there is no [leading] content or [actions]. If you want
@@ -1079,7 +1079,7 @@ class SliverGradientAppBar extends StatefulWidget {
   ///
   /// This does not include the status bar height (which will be automatically
   /// included if [primary] is true).
-  final double expandedHeight;
+  final double? expandedHeight;
 
   /// Whether the app bar should become visible as soon as the user scrolls
   /// towards the app bar.
@@ -1132,7 +1132,7 @@ class SliverGradientAppBar extends StatefulWidget {
   ///
   /// A shadow is only displayed if the [elevation] is greater than
   /// zero.
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   /// If [snap] and [floating] are true then the floating app bar will "snap"
   /// into view.
@@ -1169,7 +1169,7 @@ class SliverGradientAppBar extends StatefulWidget {
 // by the floating appbar snap animation (via FloatingHeaderSnapConfiguration).
 class _SliverGradientAppBarState extends State<SliverGradientAppBar>
     with TickerProviderStateMixin {
-  FloatingHeaderSnapConfiguration _snapConfiguration;
+  FloatingHeaderSnapConfiguration? _snapConfiguration;
 
   void _updateSnapConfiguration() {
     if (widget.snap && widget.floating) {
@@ -1201,9 +1201,9 @@ class _SliverGradientAppBarState extends State<SliverGradientAppBar>
     assert(!widget.primary || debugCheckHasMediaQuery(context));
     final double topPadding =
         widget.primary ? MediaQuery.of(context).padding.top : 0.0;
-    final double collapsedHeight =
+    final double? collapsedHeight =
         (widget.pinned && widget.floating && widget.bottom != null)
-            ? widget.bottom.preferredSize.height + topPadding
+            ? widget.bottom!.preferredSize.height + topPadding
             : null;
 
     return MediaQuery.removePadding(
